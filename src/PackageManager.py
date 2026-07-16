@@ -17,11 +17,13 @@ PACKAGES = {
         "name": "OpenJDK 25",
         "path": ["/usr/lib/jvm/java-25-openjdk-{}/bin/java".format(Arch.arch())],
         "architectures": ["amd64", "arm64"],
+        "depends": ["openjdk-25-jre-headless"],
     },
     "openjdk-21-jre": {
         "name": "OpenJDK 21",
         "path": ["/usr/lib/jvm/java-21-openjdk-{}/bin/java".format(Arch.arch())],
         "architectures": ["amd64", "arm64"],
+        "depends": ["openjdk-21-jre-headless"],
     },
     "jdk-25": {
         "name": "Oracle Java 25",
@@ -48,8 +50,8 @@ PACKAGES = {
 
 COMMANDS = {
     # use apt-get instead of apt to handle "Apt is busy"
-    "install": ["apt-get", "install", "==PACKAGE==", "-yq", "-o", "APT::Status-Fd=1"],
-    "remove": ["apt-get", "purge", "==PACKAGE==", "-yq"],
+    "install": ["apt-get", "install", "-yq", "-o", "APT::Status-Fd=1", "==PACKAGE=="],
+    "remove": ["apt-get", "purge", "-yq", "==PACKAGE=="],
     "make-default": ["update-alternatives", "--set", "java", "==PATH=="],
     "make-default-javaws": ["update-alternatives", "--set", "javaws", "==PATH=="],
     "update-alternatives-auto": ["update-alternatives", "--auto", "java"],
@@ -69,6 +71,9 @@ def get_command(operation, package=None, path=None):
                     or path in PACKAGES[package]["javaws_path"]
                 ):
                     cmd = list(map(lambda x: path if x == "==PATH==" else x, cmd))
+
+            if operation == "remove" and "depends" in PACKAGES[package]:
+                cmd += PACKAGES[package]["depends"]
 
             return cmd
 
