@@ -1,8 +1,9 @@
-pardus-java-installer (0.6.1) UNRELEASED; urgency=medium
+pardus-java-installer (0.6.1) yirmibes; urgency=medium
 
+  [ Emin Fedar ]
   * fix: headless dependency remove
 
- -- Emin Fedar <emin.fedar@pardus.org.tr>  Thu, 16 Jul 2026 10:15:15 +0300
+ -- Fatih Altun <fatih.altun@pardus.org.tr>  Fri, 17 Jul 2026 01:16:16 +0300
 
 pardus-java-installer (0.6.0) yirmibes; urgency=medium
 
